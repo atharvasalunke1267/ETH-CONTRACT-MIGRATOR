@@ -9,8 +9,10 @@ import {BuggyMigrator} from "../src/BuggyMigrator.sol";
 
 /// @title Deploy
 /// @notice Deploys the demo stack: RegistryV1, RegistryV2, honest Migrator,
-///         BuggyMigrator (mode None), and wires v2's one-time migrator to the
-///         honest one. Run with: forge script script/Deploy.s.sol --broadcast
+///         BuggyMigrator (mode None). RegistryV2 is deliberately left UNWIRED —
+///         whichever migrator `mguard migrate` runs will be wired in one-time
+///         by the CLI, matching the demo flow in WORKFLOW.md.
+///         Run with: forge script script/Deploy.s.sol --broadcast
 contract Deploy is Script {
     // Well-known Anvil account 0 fallback so local demos need no .env.
     // Sepolia runs MUST set PRIVATE_KEY in .env, which this script then reads.
@@ -25,12 +27,18 @@ contract Deploy is Script {
 
         address deployer = vm.addr(pkey);
 
-        v1 = new RegistryV1(deployer);
+        // Reusing v1 (V1_ADDRESS set) reproduces the demo's "redeploy a fresh
+        // v2 over the same seeded v1" flow; without it, v1 is deployed fresh.
+        address reusedV1 = vm.envOr("V1_ADDRESS", address(0));
+        if (reusedV1 == address(0)) {
+            v1 = new RegistryV1(deployer);
+        } else {
+            v1 = RegistryV1(reusedV1);
+        }
         v2 = new RegistryV2(deployer);
         honest = new Migrator(address(v1), address(v2));
         buggy = new BuggyMigrator(address(v1), address(v2), BuggyMigrator.BugMode.None);
-        // One-time wiring: only the honest Migrator may write this v2 instance.
-        v2.setMigrator(address(honest));
+        // Deliberately NOT wired yet: `mguard migrate` wires the chosen migrator.
 
         vm.stopBroadcast();
 
