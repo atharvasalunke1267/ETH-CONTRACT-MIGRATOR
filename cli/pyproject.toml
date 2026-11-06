@@ -1,0 +1,11 @@
+[project]
+name = "mguard"
+version = "0.1.0"
+description = "MigrateGuard off-chain invariant checker CLI"
+requires-python = ">=3.11"
+dependencies = [
+    "web3>=7,<8",
+    "click>=8,<9",
+    "rich>=13,<14",
+    "python-dotenv>=1.0",
+]
