@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MigrateGuard report</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark">&#9729;</span>
+      <h1>MigrateGuard</h1>
+      <span id="network-badge" class="badge">network</span>
+    </div>
+    <div class="meta">
+      <span id="generated-at" class="muted">—</span>
+      <label class="load-local" for="file-input">load report.json</label>
+      <input id="file-input" type="file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="status-banner" class="status-banner" aria-live="polite">
+      <span id="banner-icon" class="status-icon" aria-hidden="true">&#8261;</span>
+      <span id="banner-text">loading…</span>
+    </section>
+
+    <section id="invariants" class="invariant-grid" aria-label="Invariant results"></section>
+
+    <section aria-label="Records">
+      <h2>Records</h2>
+      <div class="table-scroll">
+        <table id="records-table">
+          <thead>
+            <tr>
+              <th>key</th>
+              <th>label</th>
+              <th>v1 owner / expiry</th>
+              <th>v2 owner / expiry</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="addr-v1" class="address-chip" title="RegistryV1"></span>
+    <span id="addr-v2" class="address-chip" title="RegistryV2"></span>
+    <span class="muted">MigrateGuard — toy registry, testnet only, checks invariants I1–I4 off-chain</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

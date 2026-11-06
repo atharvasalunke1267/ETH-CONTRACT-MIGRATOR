@@ -32,14 +32,14 @@ Tick a box only when its acceptance criteria are met and tests pass.
 
 ### Phase 4: UI
 
-- [ ] T4.1 Static page renders report.sample.json following DESIGN.md.
-- [ ] T4.2 Load a real report.json. Check responsive layout and accessibility rules.
+- [x] T4.1 Static page renders report.sample.json following DESIGN.md.
+- [ ] T4.2 Load a real report.json. Check responsive layout and accessibility rules. *(mechanics ready: fetch, ?report= and file-picker; needs a human browser pass at 360px/640px widths)*
 
 ### Phase 5: Wrap-up
 
-- [ ] T5.1 README: what it does, how it works, how to run, limits.
-- [ ] T5.2 Personal notes file: what you learned each day (your documentation).
-- [ ] T5.3 Push to GitHub. Rehearse the demo twice.
+- [x] T5.1 README: what it does, how it works, how to run, limits.
+- [x] T5.2 Personal notes file: what you learned each day (your documentation). *(scaffold created — the notes are yours to write)*
+- [ ] T5.3 Push to GitHub. Rehearse the demo twice. *(agent has no GitHub credentials — needs owner, or provide a remote URL without embedded secrets and never force-push)*
 
 ### Schedule
 

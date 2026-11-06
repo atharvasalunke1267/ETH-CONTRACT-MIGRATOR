@@ -1,0 +1,134 @@
+/* Design tokens — see DESIGN.md */
+:root {
+  --bg: #0B0F1A; --surface: #121829; --border: #232B42;
+  --text: #E6EAF5; --muted: #8F9ABB; --accent: #6C5CE7;
+  --pass: #22C55E; --fail: #EF4444; --warn: #F59E0B;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 Inter, system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  animation: fade 0.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  body { animation: none; }
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark { color: var(--accent); font-size: 20px; }
+.brand h1 { font-size: 20px; margin: 0; font-weight: 600; }
+.badge {
+  font-size: 12px; padding: 2px 8px; border-radius: var(--radius);
+  border: 1px solid var(--border); color: var(--muted);
+}
+.meta { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+.load-local {
+  color: var(--accent); cursor: pointer; text-decoration: underline;
+  font-size: 14px;
+}
+.muted { color: var(--muted); }
+
+/* Status banner */
+.status-banner {
+  display: flex; align-items: center; gap: 16px;
+  margin: 24px 0 16px; padding: 20px 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 28px; font-weight: 700;
+}
+.status-icon { font-size: 28px; }
+.status-banner.pass { color: var(--pass); }
+.status-banner.pass .status-icon::before { content: "\2714"; }
+.status-banner.fail { color: var(--fail); }
+.status-banner.fail .status-icon::before { content: "\2718"; }
+.status-banner small {
+  display: block; font-size: 14px; font-weight: 400; color: var(--muted);
+}
+
+/* Invariant cards */
+.invariant-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.invariant-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.inv-id { font-size: 12px; color: var(--muted); font-weight: 700; }
+.inv-name { font-size: 16px; font-weight: 600; }
+.inv-status { font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.inv-status.pass { color: var(--pass); }
+.inv-status.fail { color: var(--fail); }
+.inv-offenders { font-size: 14px; color: var(--muted); }
+
+/* Records table */
+h2 { font-size: 20px; margin: 8px 0 12px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+td, .mono { font-family: JetBrains Mono, ui-monospace, monospace; font-size: 14px; }
+tbody tr:last-child td { border-bottom: none; }
+td small { color: var(--muted); }
+
+td.match-ok { color: var(--text); }
+td.match-bad { color: var(--fail); }
+td.cell-empty { color: var(--muted); font-style: italic; }
+
+tr.row-ok td { background: transparent; }
+tr.row-MISMATCH td { background: rgba(239, 68, 68, 0.06); }
+tr.row-MISSING td { background: rgba(245, 158, 11, 0.06); }
+tr.row-PHANTOM td { background: rgba(239, 68, 68, 0.09); }
+
+.status-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; padding: 2px 10px; border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.status-chip::before { font-size: 12px; }
+.status-chip.OK::before { content: "\2714"; color: var(--pass); }
+.status-chip.OK { color: var(--pass); }
+.status-chip.MISMATCH::before { content: "\2718"; color: var(--fail); }
+.status-chip.MISMATCH { color: var(--fail); }
+.status-chip.MISSING::before { content: "\26A0"; color: var(--warn); }
+.status-chip.MISSING { color: var(--warn); }
+.status-chip.PHANTOM::before { content: "\2718"; color: var(--fail); }
+.status-chip.PHANTOM { color: var(--fail); }
+
+/* Footer */
+.footer {
+  margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  padding: 16px 24px; border-top: 1px solid var(--border); background: var(--surface);
+}
+.address-chip {
+  font-family: JetBrains Mono, ui-monospace, monospace; font-size: 14px;
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: var(--radius);
+  cursor: pointer;
+}
+.address-chip.chip-v1 { border-left: 3px solid var(--accent); }
+.address-chip.chip-v2 { border-left: 3px solid var(--pass); }
+
+@media (max-width: 640px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .status-banner { font-size: 20px; }
+}

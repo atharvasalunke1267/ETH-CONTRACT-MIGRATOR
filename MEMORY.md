@@ -19,9 +19,9 @@ First-year IT student, new to web3, strong in C++ and DSA, growing Python. Expla
 
 ### Current status (agent updates after each task)
 
-- Phase: 4
-- Last completed task: T2.5 (16 pytest incl. e2e on Anvil; CLI demo verified: honest all-PASS, swap-owners I1 FAIL with 10 named offenders)
-- Blockers: Phase 3 (Sepolia) needs the owner's testnet wallet + faucet ETH — agent must not handle private keys
+- Phase: 5
+- Last completed task: T5.1 (README written) + T5.2 scaffold + Phase 4 UI built; forge test 29/29 and pytest 16/16 green
+- Blockers: Phase 3 (Sepolia) and T5.3 (GitHub push) need the owner's wallet/credentials; T4.2 needs one browser pass
 
 ### Deployed addresses (fill after deployment)
 
