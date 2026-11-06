@@ -19,16 +19,16 @@ First-year IT student, new to web3, strong in C++ and DSA, growing Python. Expla
 
 ### Current status (agent updates after each task)
 
-- Phase: 0
-- Last completed task: none
+- Phase: 2
+- Last completed task: T1.6 (forge test: 29 passed incl. 2x256 fuzz runs; Deploy + Seed scripts verified on Anvil)
 - Blockers: none
 
 ### Deployed addresses (fill after deployment)
 
-- RegistryV1: TBD
-- RegistryV2: TBD
-- Migrator: TBD
-- BuggyMigrator: TBD
+- RegistryV1: TBD (local Anvil 2025-11-06: 0x5FC8d32690cc91D4c39d9d3abcBD16989F875707)
+- RegistryV2: TBD (local Anvil: 0x0165878A594ca255338adfa4d48449f69242Eb8F)
+- Migrator: TBD (local Anvil: 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853)
+- BuggyMigrator: TBD (local Anvil: 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6)
 
 ### Commands
 
@@ -41,3 +41,7 @@ First-year IT student, new to web3, strong in C++ and DSA, growing Python. Expla
 
 - Sepolia needs test ETH; faucets can be slow.
 - Do not paste private keys into chat or logs.
+- Windows: running foundryup inside Git Bash/WSL installs linux binaries. Install the
+  `foundry_v<ver>_win32_amd64.zip` asset from the foundry GitHub releases instead
+  (verify the .sha256), extract to C:\Users\.foundry\bin and add to PATH.
+- forge writes drafts to broadcast\<Script>\<chainId>\run-latest.json (no "latest" folder).

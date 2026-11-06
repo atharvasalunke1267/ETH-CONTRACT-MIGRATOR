@@ -4,18 +4,18 @@ Tick a box only when its acceptance criteria are met and tests pass.
 
 ### Phase 0: Setup
 
-- [ ] T0.1 Init Foundry project, add folders from ARCHITECTURE.md. Done when forge build succeeds.
-- [ ] T0.2 Python venv and cli/mguard skeleton with click. Done when mguard --help runs.
-- [ ] T0.3 .gitignore (includes .env), .env.example, README stub. Done when git status shows no secrets.
+- [x] T0.1 Init Foundry project, add folders from ARCHITECTURE.md. Done when forge build succeeds.
+- [x] T0.2 Python venv and cli/mguard skeleton with click. Done when mguard --help runs.
+- [x] T0.3 .gitignore (includes .env), .env.example, README stub. Done when git status shows no secrets.
 
 ### Phase 1: Contracts
 
-- [ ] T1.1 RegistryV1 with tests. Done when register, get, enumeration and onlyOwner are tested.
-- [ ] T1.2 RegistryV2 with tests. Done when only the migrator can write (I6).
-- [ ] T1.3 Migrator (honest) with tests. Done when I1 to I5 hold on sample data.
-- [ ] T1.4 BuggyMigrator with four modes. Done when each mode has a test that breaks the matching invariant.
-- [ ] T1.5 Fuzz tests. Done when random record sets pass I1 to I5 with the honest Migrator.
-- [ ] T1.6 Deploy and Seed scripts. Done when they run on local Anvil.
+- [x] T1.1 RegistryV1 with tests. Done when register, get, enumeration and onlyOwner are tested.
+- [x] T1.2 RegistryV2 with tests. Done when only the migrator can write (I6).
+- [x] T1.3 Migrator (honest) with tests. Done when I1 to I5 hold on sample data.
+- [x] T1.4 BuggyMigrator with four modes. Done when each mode has a test that breaks the matching invariant.
+- [x] T1.5 Fuzz tests. Done when random record sets pass I1 to I5 with the honest Migrator.
+- [x] T1.6 Deploy and Seed scripts. Done when they run on local Anvil.
 
 ### Phase 2: CLI
 
