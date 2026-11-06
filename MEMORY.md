@@ -19,9 +19,9 @@ First-year IT student, new to web3, strong in C++ and DSA, growing Python. Expla
 
 ### Current status (agent updates after each task)
 
-- Phase: 2
-- Last completed task: T1.6 (forge test: 29 passed incl. 2x256 fuzz runs; Deploy + Seed scripts verified on Anvil)
-- Blockers: none
+- Phase: 4
+- Last completed task: T2.5 (16 pytest incl. e2e on Anvil; CLI demo verified: honest all-PASS, swap-owners I1 FAIL with 10 named offenders)
+- Blockers: Phase 3 (Sepolia) needs the owner's testnet wallet + faucet ETH — agent must not handle private keys
 
 ### Deployed addresses (fill after deployment)
 

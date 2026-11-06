@@ -19,11 +19,11 @@ Tick a box only when its acceptance criteria are met and tests pass.
 
 ### Phase 2: CLI
 
-- [ ] T2.1 chain.py: read all records from a registry. Done when it works against Anvil.
-- [ ] T2.2 invariants.py: I1 to I4 on plain data. Done when pytest covers pass and fail cases without a chain.
-- [ ] T2.3 report.py and check command. Done when report.json is written and the exit code is correct.
-- [ ] T2.4 seed and migrate commands with --mode. Done when the full demo runs on Anvil.
-- [ ] T2.5 End-to-end pytest on Anvil. Done when honest passes and all four buggy modes fail.
+- [x] T2.1 chain.py: read all records from a registry. Done when it works against Anvil.
+- [x] T2.2 invariants.py: I1 to I4 on plain data. Done when pytest covers pass and fail cases without a chain.
+- [x] T2.3 report.py and check command. Done when report.json is written and the exit code is correct.
+- [x] T2.4 seed and migrate commands with --mode. Done when the full demo runs on Anvil.
+- [x] T2.5 End-to-end pytest on Anvil. Done when honest passes and all four buggy modes fail.
 
 ### Phase 3: Sepolia
 
