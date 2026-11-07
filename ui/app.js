@@ -1,8 +1,3 @@
-/* MigrateGuard report viewer.
- * Loads report.json (same directory), or ?report=PATH for another file,
- * and falls back to a file picker when fetch is blocked (file:// pages).
- * No frameworks; the report.json shape comes from ARCHITECTURE.md.
- */
 "use strict";
 
 const PASS = "PASS";
@@ -11,7 +6,7 @@ const ETHERSCAN = "https://sepolia.etherscan.io/address/";
 
 const explorerNames = {
   1: "etherscan.io",
-  31337: null, // local Anvil — no explorer
+  31337: null,
   11155111: "sepolia.etherscan.io",
 };
 
@@ -162,7 +157,6 @@ async function init() {
     if (!response.ok) throw new Error("HTTP " + response.status);
     render(await response.json());
   } catch (error) {
-    // file:// pages cannot fetch; show the picker so reviewers open a report manually.
     const banner = document.getElementById("status-banner");
     banner.className = "status-banner";
     document.getElementById("banner-text").textContent =

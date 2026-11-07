@@ -33,7 +33,6 @@ contract BuggyMigratorTest is MigrationBase {
         assertEq(i3[0], v1.keyAt(9), "the dropped one is the last key");
         assertEq(i3[0], keccak256(bytes("judy")));
 
-        // The other three data invariants still hold for the migrated records.
         assertEq(_i1OffenderCount(v1, freshV2, 10), 0);
         assertEq(_i2OffenderCount(v1, freshV2, 10), 0);
         assertEq(_i4OffenderCount(v1, freshV2, 9), 0);
@@ -103,7 +102,6 @@ contract BuggyMigratorTest is MigrationBase {
         v1 = new RegistryV1(deployer);
         _register(v1, _demoNames());
         RegistryV2 freshV2 = new RegistryV2(deployer);
-        // Constructed by the test contract, so the test contract is the owner here.
         BuggyMigrator buggy =
             new BuggyMigrator(address(v1), address(freshV2), BuggyMigrator.BugMode.None);
 

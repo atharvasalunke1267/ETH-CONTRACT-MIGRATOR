@@ -32,7 +32,6 @@ contract MigratorTest is MigrationBase {
     }
 
     function test_MigrationIsIdempotent_I5() public {
-        // Second run: everything already migrated, so nothing may change.
         vm.recordLogs();
         vm.prank(deployer);
         honest.migrateBatch(0, 10);
@@ -46,7 +45,7 @@ contract MigratorTest is MigrationBase {
             }
         }
         assertEq(migratedEvents, 0, "second run must emit no Migrated events");
-        assertEq(v2.recordCount(), v1.recordCount()); // no new records either
+        assertEq(v2.recordCount(), v1.recordCount());
     }
 
     function test_OnlyOwnerCanMigrate() public {
@@ -64,6 +63,6 @@ contract MigratorTest is MigrationBase {
     function test_RangeOutOfBoundsReverts() public {
         vm.prank(deployer);
         vm.expectRevert(Migrator.RangeOutOfBounds.selector);
-        honest.migrateBatch(0, 11); // v1 only holds 10 records
+        honest.migrateBatch(0, 11);
     }
 }

@@ -35,7 +35,7 @@ def test_report_shape_matches_schema(tmp_path: Any) -> None:
     assert report["countV2"] == 1
     assert [i["id"] for i in report["invariants"]] == ["I1", "I2", "I3", "I4"]
     statuses = {i["id"]: i["status"] for i in report["invariants"]}
-    assert statuses["I3"] == "FAIL"  # K1 missing
+    assert statuses["I3"] == "FAIL"
     missing_row = next(r for r in report["records"] if r["key"] == K1)
     assert missing_row["status"] == "MISSING"
     assert missing_row["v1"]["expiry"] == 20 and missing_row["v2"] is None

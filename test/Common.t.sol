@@ -15,7 +15,7 @@ contract MigrationBase is Test {
     RegistryV2 internal v2;
     Migrator internal honest;
 
-    address internal deployer = makeAddr("deployer"); // owns v1, v2 and both migrators
+    address internal deployer = makeAddr("deployer");
 
     function _deployStack() internal returns (RegistryV1, RegistryV2, Migrator) {
         vm.startPrank(deployer);
@@ -59,7 +59,6 @@ contract MigrationBase is Test {
         names[9] = "judy";
     }
 
-    // ── Solidity-side invariant checks (the same rules mguard runs off-chain) ──
 
     /// @notice I1: every v1 record has the same owner in v2.
     function _checkI1OwnershipPreserved(RegistryV1 a, RegistryV2 b, uint256 countV1)
@@ -71,7 +70,7 @@ contract MigrationBase is Test {
         offendersCount = 0;
         for (uint256 i = 0; i < countV1; ++i) {
             bytes32 key = a.keyAt(i);
-            if (!b.has(key)) continue; // I3 covers missing keys
+            if (!b.has(key)) continue;
             (, address v1Owner, ) = a.get(key);
             (, address v2Owner, , ) = b.get(key);
             if (v2Owner != v1Owner) offenders[offendersCount++] = key;
@@ -123,7 +122,6 @@ contract MigrationBase is Test {
         }
     }
 
-    // ── Count-only wrappers, for tests that only need pass/fail numbers ──
 
     function _i1OffenderCount(RegistryV1 a, RegistryV2 b, uint256 countV1)
         internal

@@ -28,7 +28,7 @@ contract RegistryV1Test is MigrationBase {
         assertEq(v1.recordCount(), 3);
         for (uint256 i = 0; i < 3; ++i) {
             bytes32 key = v1.keyAt(i);
-            assertEq(key, keccak256(bytes(labels[i]))); // registration order
+            assertEq(key, keccak256(bytes(labels[i])));
             (string memory label, address owner_, uint64 expiry) = v1.get(key);
             assertEq(label, labels[i]);
             assertEq(owner_, makeAddr(labels[i]));

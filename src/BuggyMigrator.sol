@@ -23,13 +23,11 @@ contract BuggyMigrator {
     /// @notice Bounded batches, matching the honest Migrator.
     uint256 public constant MAX_BATCH = 100;
 
-    // ── Custom errors ────────────────────────────────────────────────
     error NotBuggyOwner();
     error ModeAlreadyFixed();
     error BatchTooLarge();
     error RangeOutOfBounds();
 
-    // ── Events ───────────────────────────────────────────────────────
     /// @notice A v1 key was written into v2 (possibly corrupted by the active bug).
     event Migrated(bytes32 indexed key);
 
@@ -69,29 +67,21 @@ contract BuggyMigrator {
 
         uint256 end = start + count;
         uint256 last = end - 1;
-        // forge-lint: disable-next-line(calls-loop, require-revert-in-loop)
-        // The loop is bounded by MAX_BATCH; cross-contract reads/writes are the step.
         for (uint256 i = start; i < end; ++i) {
             bytes32 key = v1.keyAt(i);
 
-            // Idempotent skip keeps the honest framing: the bug is the only difference.
             if (v2.has(key)) continue;
             (string memory label, address owner_, uint64 expiry) = v1.get(key);
 
             BugMode m = mode;
             if (m == BugMode.DropLast) {
-                // Simply never copy the final record of the range (I3).
                 if (i == last) continue;
                 v2.migrateIn(key, label, owner_, expiry);
             } else if (m == BugMode.ResetExpiry) {
-                // Zero the expiry: nothing avoids the expiry change (I2 fails, I1 still passes).
                 v2.migrateIn(key, label, owner_, 0);
             } else if (m == BugMode.SwapOwners) {
-                // Replace the real owner with a different address (I1).
                 v2.migrateIn(key, label, address(this), expiry);
             } else if (m == BugMode.PhantomRecord) {
-                // Copy the real record; exactly once per batch, inject a key that
-                // never existed in v1 (I4) so the offender list stays deterministic.
                 v2.migrateIn(key, label, owner_, expiry);
                 if (i == start) {
                     bytes32 phantom = keccak256(abi.encodePacked(label, ":phantom"));
@@ -100,10 +90,9 @@ contract BuggyMigrator {
                     }
                 }
             } else {
-                // BugMode.None: behave exactly like the honest Migrator.
                 v2.migrateIn(key, label, owner_, expiry);
             }
-            emit Migrated(key); // forge-lint: disable-line(reentrancy-events)
+            emit Migrated(key);
         }
     }
 }

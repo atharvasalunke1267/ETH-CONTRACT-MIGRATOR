@@ -29,7 +29,6 @@ ARTIFACTS = {
 }
 
 ZERO = "0x" + "00" * 20
-# enum BugMode { None, DropLast, ResetExpiry, SwapOwners, PhantomRecord }
 MODE_INDEX = {
     "none": 0,
     "drop-last": 1,
@@ -43,7 +42,7 @@ def _w3() -> Web3 | None:
     """Return a connected Web3, or None when Anvil is not running."""
     try:
         w3 = Web3(Web3.HTTPProvider(DEFAULT_RPC, request_kwargs={"timeout": 5}))
-        _probe = w3.eth.chain_id  # connection probe; skip the module when it fails
+        _probe = w3.eth.chain_id
         del _probe
     except Exception:  # noqa: BLE001 — any failure here means "skip the tests"
         return None
@@ -114,7 +113,7 @@ def _deploy_pair(w3: Web3, v1: str, mode: str) -> tuple[str, str]:
     if mode == "honest":
         migrator = _deploy(w3, "Migrator", v1, v2)
         return v2, migrator
-    buggy = _deploy(w3, "BuggyMigrator", v1, v2, 0)  # mode None; CLI sets the bug
+    buggy = _deploy(w3, "BuggyMigrator", v1, v2, 0)
     return v2, buggy
 
 
@@ -204,7 +203,7 @@ def test_every_bug_mode_fails_its_invariant(
         ],
         catch_exceptions=True,
     )
-    assert result.exit_code == 1, result.output  # failing invariant -> exit 1
+    assert result.exit_code == 1, result.output
     report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
     failed = [item for item in report["invariants"] if item["status"] == "FAIL"]
     assert invariant in [item["id"] for item in failed]

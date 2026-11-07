@@ -1,5 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["RULES.md", "MEMORY.md", "TASKS.md", "DESIGN.md"],
+  "instructions": ["ARCHITECTURE.md", "PRD.md", "README.md"],
   "permission": { "edit": "ask", "bash": "ask" }
 }

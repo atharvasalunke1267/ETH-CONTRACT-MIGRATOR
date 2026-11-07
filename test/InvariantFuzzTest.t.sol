@@ -21,7 +21,7 @@ contract InvariantFuzzTest is MigrationBase {
     /// @notice Deterministically derives a non-zero owner address and an expiry from a seed.
     function _randOwner(uint256 index, uint256 salt) internal pure returns (address) {
         bytes32 seed = keccak256(abi.encodePacked(index, "owner", salt));
-        return address(uint160(uint256(seed)) | 1); // |1 ensures it is never zero
+        return address(uint160(uint256(seed)) | 1);
     }
 
     function _randExpiry(uint256 index, uint256 salt) internal pure returns (uint64) {
@@ -50,7 +50,6 @@ contract InvariantFuzzTest is MigrationBase {
         assertEq(_i4OffenderCount(v1, v2, n), 0);
         assertEq(v2.recordCount(), n);
 
-        // I5: running the exact same batch again must not change v2.
         vm.prank(deployer);
         honest.migrateBatch(0, n);
         assertEq(v2.recordCount(), n);

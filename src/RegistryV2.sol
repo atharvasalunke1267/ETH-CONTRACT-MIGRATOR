@@ -8,10 +8,9 @@ contract RegistryV2 {
         string label;
         address owner;
         uint64 expiry;
-        uint64 migratedAt; // new in v2: when this record was copied over
+        uint64 migratedAt;
     }
 
-    // ── Custom errors ────────────────────────────────────────────────
     error NotRegistryOwner();
     error NotMigrator();
     error MigratorAlreadySet();
@@ -22,7 +21,6 @@ contract RegistryV2 {
     error UnknownKey();
     error IndexError();
 
-    // ── Events ───────────────────────────────────────────────────────
     /// @notice The one-time trusted migrator was set.
     event MigratorSet(address indexed migrator);
     /// @notice A record was copied in from v1.
@@ -30,7 +28,7 @@ contract RegistryV2 {
 
     address public owner;
     uint256 public recordCount;
-    address public migrator; // set exactly once
+    address public migrator;
     mapping(bytes32 key => _Record record) private _records;
     mapping(bytes32 key => bool exists) private _exists;
     bytes32[] private _keys;
@@ -41,7 +39,7 @@ contract RegistryV2 {
     }
 
     modifier onlyMigrator() {
-        if (msg.sender != migrator) revert NotMigrator(); // invariant I6
+        if (msg.sender != migrator) revert NotMigrator();
         _;
     }
 
@@ -54,7 +52,7 @@ contract RegistryV2 {
     /// @notice Allow exactly one address to write migrated records. Callable once, by owner only.
     /// @param migrator_ is the migrator contract (honest or buggy) that gets write access.
     function setMigrator(address migrator_) external onlyOwner {
-        if (migrator != address(0)) revert MigratorAlreadySet(); // cannot be undone
+        if (migrator != address(0)) revert MigratorAlreadySet();
         if (migrator_ == address(0)) revert MigratorZero();
 
         migrator = migrator_;
@@ -75,13 +73,10 @@ contract RegistryV2 {
         if (_exists[key]) revert KeyAlreadyMigrated();
 
         _exists[key] = true;
-        // forge-lint: disable-next-line(unsafe-typecast)
-        // uint64 is the project-wide timestamp type; overflow is not a concern until 2106.
         _records[key] = _Record(label, owner_, expiry, uint64(block.timestamp));
         _keys.push(key);
         recordCount = _keys.length;
 
-        // forge-lint: disable-next-line(unsafe-typecast)
         emit MigratedIn(key, owner_, expiry, uint64(block.timestamp));
     }
 

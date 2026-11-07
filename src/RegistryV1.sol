@@ -10,7 +10,6 @@ contract RegistryV1 {
         uint64 expiry;
     }
 
-    // ── Custom errors ────────────────────────────────────────────────
     error NotRegistryOwner();
     error LabelEmpty();
     error OwnerZero();
@@ -18,11 +17,10 @@ contract RegistryV1 {
     error UnknownKey();
     error IndexError();
 
-    // ── Events ───────────────────────────────────────────────────────
     /// @notice A new key was registered.
     event Registered(bytes32 indexed key, string label, address indexed owner, uint64 expiry);
 
-    address public owner; // the only account allowed to register
+    address public owner;
     uint256 public recordCount;
     mapping(bytes32 key => _Record record) private _records;
     mapping(bytes32 key => bool exists) private _exists;

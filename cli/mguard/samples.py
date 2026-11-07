@@ -26,7 +26,7 @@ class SampleRecord:
     """One pre-defined record used by `mguard seed`."""
 
     label: str
-    owner: str  # hex address
+    owner: str
     expiry: int
 
 
@@ -35,8 +35,8 @@ def demo_records() -> list[SampleRecord]:
     return [
         SampleRecord(
             label=label,
-            owner=f"0x{10001 + i:040x}",  # tidy, distinct demo owners
-            expiry=1_800_000_000 + i,  # roughly year 2027
+            owner=f"0x{10001 + i:040x}",
+            expiry=1_800_000_000 + i,
         )
         for i, label in enumerate(DEMO_LABELS)
     ]

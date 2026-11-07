@@ -36,7 +36,7 @@ def test_all_pass_when_migration_was_exact() -> None:
 
 def test_i1_catches_swapped_owner() -> None:
     v1s = [v1(K0), v1(K1)]
-    v2s = [v2(K0), v2(K1, owner=A1)]  # K1 got a different owner
+    v2s = [v2(K0), v2(K1, owner=A1)]
     results, rows = evaluate_invariants(v1s, v2s)
     first = result(results, "I1")
     assert first.status == "FAIL"
@@ -56,24 +56,24 @@ def test_i2_catches_reset_expiry() -> None:
 
 def test_i3_catches_dropped_record() -> None:
     v1s = [v1(K0), v1(K1), v1(K2)]
-    v2s = [v2(K0), v2(K1)]  # K2 never migrated ("drop the last one")
+    v2s = [v2(K0), v2(K1)]
     results, rows = evaluate_invariants(v1s, v2s)
     third = result(results, "I3")
     assert third.status == "FAIL"
     assert third.offenders == [K2]
     assert rows[2].status == "MISSING"
-    assert result(results, "I1").status == "PASS"  # others still hold
+    assert result(results, "I1").status == "PASS"
 
 
 def test_i4_catches_phantom_record() -> None:
     v1s = [v1(K0)]
-    v2s = [v2(K0), v2(K1)]  # K1 never existed in v1
+    v2s = [v2(K0), v2(K1)]
     results, rows = evaluate_invariants(v1s, v2s)
     fourth = result(results, "I4")
     assert fourth.status == "FAIL"
     assert fourth.offenders == [K1]
     assert rows[1].status == "PHANTOM"
-    assert result(results, "I3").status == "PASS"  # others still hold
+    assert result(results, "I3").status == "PASS"
 
 
 def test_empty_v1_means_no_phantoms() -> None:

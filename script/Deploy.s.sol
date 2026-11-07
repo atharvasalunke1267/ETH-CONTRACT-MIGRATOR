@@ -14,8 +14,6 @@ import {BuggyMigrator} from "../src/BuggyMigrator.sol";
 ///         by the CLI, matching the demo flow in WORKFLOW.md.
 ///         Run with: forge script script/Deploy.s.sol --broadcast
 contract Deploy is Script {
-    // Well-known Anvil account 0 fallback so local demos need no .env.
-    // Sepolia runs MUST set PRIVATE_KEY in .env, which this script then reads.
     uint256 private constant ANVIL_DEFAULT_PKEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
 
     function run()
@@ -27,8 +25,6 @@ contract Deploy is Script {
 
         address deployer = vm.addr(pkey);
 
-        // Reusing v1 (V1_ADDRESS set) reproduces the demo's "redeploy a fresh
-        // v2 over the same seeded v1" flow; without it, v1 is deployed fresh.
         address reusedV1 = vm.envOr("V1_ADDRESS", address(0));
         if (reusedV1 == address(0)) {
             v1 = new RegistryV1(deployer);
@@ -38,11 +34,9 @@ contract Deploy is Script {
         v2 = new RegistryV2(deployer);
         honest = new Migrator(address(v1), address(v2));
         buggy = new BuggyMigrator(address(v1), address(v2), BuggyMigrator.BugMode.None);
-        // Deliberately NOT wired yet: `mguard migrate` wires the chosen migrator.
 
         vm.stopBroadcast();
 
-        // paste-ready addresses (see README demo flow and ui/)
         console2.log("REGISTRY_V1 =", address(v1));
         console2.log("REGISTRY_V2 =", address(v2));
         console2.log("MIGRATOR    =", address(honest));

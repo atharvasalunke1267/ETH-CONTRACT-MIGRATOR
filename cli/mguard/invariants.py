@@ -30,8 +30,8 @@ class InvariantResult:
 
     id: str
     name: str
-    status: str  # "PASS" | "FAIL"
-    offenders: list[str] = field(default_factory=list)  # 0x hex keys
+    status: str
+    offenders: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -45,7 +45,7 @@ class RecordRow:
     v2_owner: str | None
     v2_expiry: int | None
     v2_migrated_at: int | None
-    status: str  # "OK" | "MISMATCH" | "MISSING" | "PHANTOM"
+    status: str
 
 
 def evaluate_invariants(
@@ -109,7 +109,7 @@ def _result(invariant_id: str, offenders: list[str]) -> InvariantResult:
 
 def _row(*, v1: V1Record | None, v2: V2Record | None, status: str) -> RecordRow:
     side = v1 if v1 is not None else v2
-    assert side is not None  # at least one side must exist for a present row
+    assert side is not None
     return RecordRow(
         key=side.key,
         label=side.label,

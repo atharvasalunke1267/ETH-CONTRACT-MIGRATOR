@@ -31,12 +31,10 @@ contract RegistryV2Test is MigrationBase {
         bytes32 key = v1.keyAt(0);
         (string memory label, address owner_, uint64 expiry) = v1.get(key);
 
-        // Even the registry owner cannot write migrated records.
         vm.prank(deployer);
         vm.expectRevert(RegistryV2.NotMigrator.selector);
         v2.migrateIn(key, label, owner_, expiry);
 
-        // Neither can a stranger.
         vm.prank(makeAddr("stranger"));
         vm.expectRevert(RegistryV2.NotMigrator.selector);
         v2.migrateIn(key, label, owner_, expiry);
