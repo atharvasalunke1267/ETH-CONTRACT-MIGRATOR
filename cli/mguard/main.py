@@ -78,7 +78,8 @@ def seed(ctx: click.Context, rpc: str, v1_address: str, count: int) -> None:
             f"[green]seed complete[/green]: from set of {len(records)} demo records"
         )
     except chain_mod.ChainError as error:
-        ctx.exit(2, str(error))
+        click.echo(f"error: {error}", err=True)
+        ctx.exit(2)
         return
     ctx.exit(0)
 
@@ -162,7 +163,8 @@ def migrate(
         )
         ctx.exit(0)
     except chain_mod.ChainError as error:
-        ctx.exit(2, str(error))
+        click.echo(f"error: {error}", err=True)
+        ctx.exit(2)
 
 
 def _migrateable_count(w3: Web3, migrator_address: str) -> int:
@@ -257,7 +259,8 @@ def check(
         v1_records = chain_mod.read_registry_v1(w3, v1_address)
         v2_records = chain_mod.read_registry_v2(w3, v2_address)
     except chain_mod.ChainError as error:
-        ctx.exit(2, str(error))
+        click.echo(f"error: {error}", err=True)
+        ctx.exit(2)
 
     results, rows = invariant_mod.evaluate_invariants(v1_records, v2_records)
     report = report_mod.build_report(

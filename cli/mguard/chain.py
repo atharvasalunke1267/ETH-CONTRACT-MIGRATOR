@@ -15,8 +15,6 @@ from eth_account import Account
 from web3 import Web3
 from web3.providers import HTTPProvider
 
-# Well-known Anvil account 0 fallback, ONLY valid on a local dev chain.
-# Any other network must set PRIVATE_KEY in .env (testnet-only wallet).
 ANVIL_DEFAULT_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 MAINNET_CHAIN_ID = 1
 LOCAL_CHAIN_ID = 31337
@@ -50,7 +48,6 @@ _ADDR = {"type": "address"}
 _U64 = {"type": "uint64"}
 _U8 = {"type": "uint8"}
 
-# Only the view functions the checker needs.
 V1_ABI = [
     _fn("recordCount", [], [_UINT]),
     _fn("keyAt", [{"name": "index", "type": "uint256"}], [_BYTE]),
@@ -66,7 +63,6 @@ V2_ABI = [
     _fn("migrator", [], [_ADDR]),
 ]
 
-# Write functions driven by `mguard seed` and `mguard migrate`.
 REGISTER_ABI = [
     _fn(
         "register",
@@ -100,7 +96,6 @@ MIGRATE_BATCH_ABI = [
     _fn("v2", [], [_ADDR]),
 ]
 
-# BuggyMigrator mode handling driven by `mguard migrate`.
 BUGGY_MODE_ABI = [
     _fn("mode", [], [_U8]),
     _fn("setMode", [{"name": "mode_", "type": "uint8"}], [], view=False),
@@ -119,9 +114,9 @@ class MainnetForbidden(ChainError):
 class V1Record:
     """A record read from RegistryV1."""
 
-    key: str  # 0x-prefixed bytes32
+    key: str
     label: str
-    owner: str  # checksum address
+    owner: str
     expiry: int
 
 
@@ -141,7 +136,7 @@ def connect(rpc_url: str) -> Web3:
     w3 = Web3(HTTPProvider(rpc_url, request_kwargs={"timeout": 30}))
     try:
         chain_id = w3.eth.chain_id
-    except Exception as error:  # connection/protocol problems
+    except Exception as error:
         raise ChainError(f"cannot reach RPC {rpc_url!r}: {error}") from error
     if chain_id == MAINNET_CHAIN_ID:
         raise MainnetForbidden(
@@ -153,14 +148,15 @@ def connect(rpc_url: str) -> Web3:
 def load_private_key(w3: Web3) -> str:
     """Return a private key for signing, never printing it.
 
-    Falls back to the public Anvil dev key only for a 31337 local chain;
-    otherwise PRIVATE_KEY must come from .env (loaded but never echoed).
+    The public Anvil dev key is used for a 31337 local chain so a stray .env
+    cannot shadow the local deployer; Sepolia and other chains must supply
+    PRIVATE_KEY through .env (loaded but never echoed).
     """
+    if w3.eth.chain_id == LOCAL_CHAIN_ID:
+        return ANVIL_DEFAULT_KEY
     env_key = _env_private_key()
     if env_key:
         return env_key
-    if w3.eth.chain_id == LOCAL_CHAIN_ID:
-        return ANVIL_DEFAULT_KEY
     raise ChainError(
         "no PRIVATE_KEY configured for this network; set it in .env (testnet-only wallet)"
     )
