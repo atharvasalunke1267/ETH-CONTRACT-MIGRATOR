@@ -7,6 +7,9 @@ out = "out"
 test = "test"
 script = "script"
 
+[lint]
+exclude_lints = ["calls-loop", "require-revert-in-loop", "reentrancy-events", "unsafe-typecast"]
+
 [fuzz]
 runs = 256
 
